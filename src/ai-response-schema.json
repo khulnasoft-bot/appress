@@ -1,0 +1,148 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Photo to Elementor AI Response Schema",
+    "description": "JSON schema for AI-generated layout structures",
+    "type": "object",
+    "properties": {
+        "type": {
+            "type": "string",
+            "enum": [
+                "container",
+                "widget"
+            ],
+            "description": "The type of element"
+        },
+        "settings": {
+            "type": "object",
+            "properties": {
+                "flex_direction": {
+                    "type": "string",
+                    "enum": [
+                        "row",
+                        "column"
+                    ],
+                    "description": "Flexbox direction for containers"
+                },
+                "padding": {
+                    "oneOf": [
+                        {
+                            "type": "string",
+                            "description": "Simple padding value like '20px'"
+                        },
+                        {
+                            "type": "object",
+                            "properties": {
+                                "unit": {
+                                    "type": "string",
+                                    "default": "px"
+                                },
+                                "top": {
+                                    "type": "string"
+                                },
+                                "right": {
+                                    "type": "string"
+                                },
+                                "bottom": {
+                                    "type": "string"
+                                },
+                                "left": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "margin": {
+                    "oneOf": [
+                        {
+                            "type": "string",
+                            "description": "Simple margin value like '20px'"
+                        },
+                        {
+                            "type": "object",
+                            "properties": {
+                                "unit": {
+                                    "type": "string",
+                                    "default": "px"
+                                },
+                                "top": {
+                                    "type": "string"
+                                },
+                                "right": {
+                                    "type": "string"
+                                },
+                                "bottom": {
+                                    "type": "string"
+                                },
+                                "left": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "background_color": {
+                    "type": "string",
+                    "pattern": "^#[0-9A-Fa-f]{6}$",
+                    "description": "Hex color code"
+                },
+                "align": {
+                    "type": "string",
+                    "enum": [
+                        "left",
+                        "center",
+                        "right",
+                        "justify"
+                    ],
+                    "description": "Text/content alignment"
+                }
+            }
+        },
+        "elements": {
+            "type": "array",
+            "items": {
+                "$ref": "#"
+            },
+            "description": "Child elements for containers"
+        },
+        "widgetType": {
+            "type": "string",
+            "enum": [
+                "heading",
+                "text-editor",
+                "button",
+                "image",
+                "spacer",
+                "divider",
+                "icon",
+                "video"
+            ],
+            "description": "Widget type (only for widget elements)"
+        }
+    },
+    "required": [
+        "type"
+    ],
+    "oneOf": [
+        {
+            "properties": {
+                "type": {
+                    "const": "container"
+                },
+                "elements": {
+                    "type": "array"
+                }
+            }
+        },
+        {
+            "properties": {
+                "type": {
+                    "const": "widget"
+                },
+                "widgetType": {
+                    "type": "string"
+                }
+            }
+        }
+    ]
+}
